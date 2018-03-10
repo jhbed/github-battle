@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 const PropTypes = require('prop-types');
 const api = require('../utils/api');
 
@@ -10,6 +10,48 @@ however, one of these languages is going to be stored in our parent's state. To 
 it seems more readable/intuitive to store this list in parent, however, Tyler seems
 to want it here. 
 */
+
+
+function RepoGrid(props){
+	return (
+		<ul className="popular-list">
+			{props.repos.map((repo, index) => 
+				<li key={repo.name} className="popular-item">
+					<div className="popular-rank">#{index+1}</div>
+					<ul className="space-list-items">
+						<li>
+							<img 
+								className="avatar"
+								src={repo.owner.avatar_url}
+								alt={"Avatar for " + repo.owner.login}
+							/>
+
+
+						</li>
+
+						<li>
+							<a href={repo.html_url}>{repo.name}</a>
+						</li>
+
+						<li>
+							@{repo.owner.login}
+						</li>
+
+						<li>
+							{repo.stargazers_count} stars
+						</li>
+					</ul>
+				</li>
+			)}
+		</ul>
+	);
+}
+
+RepoGrid.propTypes = {
+	repos: PropTypes.array.isRequired,
+}
+
+
 function SelectLang(props){
 	const languages = ['All', 'Javascript', 'Ruby','Java','CSS','Python'];
 	return (
@@ -47,6 +89,7 @@ class Popular extends React.Component {
 	}
 
 	updateLanguage(lang){
+		//goes AS SOON as a category button is clicked
 		this.setState(function(){
 			return ({ 
 				selectedLanguage: lang,
@@ -54,7 +97,7 @@ class Popular extends React.Component {
 			});
 		});
 
-
+		//changes state once we get the response!
 		api.fetchPopularRepos(lang)
 			.then(function(repos){
 				this.setState(function(){
@@ -73,7 +116,8 @@ class Popular extends React.Component {
 		this.updateLanguage(this.state.selectedLanguage);
 	}
 
-
+  //This re-renders every time there is a change in state that effects
+  //this component
   render() {
     return (
     	<div>
@@ -81,7 +125,13 @@ class Popular extends React.Component {
 			selectedLanguage = {this.state.selectedLanguage}
 			onSelect = {this.updateLanguage}
     		/>
-    		{JSON.stringify(this.state.repos, null, 2)}
+    		{/*Here it will render once as soon as the category is changed
+    		which  will trigger 'loading', and then render again as soon as 
+    	    a response is recieved from our ajax call.*/}
+			{!this.state.repos 
+			 ? <p>Loading...</p>
+			 : <RepoGrid repos={this.state.repos} />}
+
     	</div>
     );
   }
