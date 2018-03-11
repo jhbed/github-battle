@@ -5,14 +5,10 @@ class Test extends Component {
   render() {
     return (
       <div>
-        Hello {this.props.name}
+        {this.props.name}'s App!
       </div>
     );
   }
-}
-
-Test.proptypes = {
-	name: PropTypes.array.isRequired,
 }
 
 export default Test;
