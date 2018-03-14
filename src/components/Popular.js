@@ -1,4 +1,6 @@
 import React from 'react';
+import Nav from './Nav.js';
+import Test from './test.js';
 const PropTypes = require('prop-types');
 const api = require('../utils/api');
 
