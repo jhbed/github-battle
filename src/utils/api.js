@@ -1,12 +1,12 @@
 var axios = require('axios');
 
-const id = 'MY_CLIENT_ID';
-const sec = 'MY_SECRET KEY'
+const id = '4c9340447280f8fa8ea3';
+const sec = 'a1efdbbe4ba25298cd68a3863d50c7bc11c77525'
 const params = '?client_id=' + id + '&client_secret=' + sec;
 //return axios.get('https://api.github.com/users/' + username + params) if params needed
 
 function getProfile(username) {
-	return axios.get('https://api.github.com/users/' + username)
+	return axios.get('https://api.github.com/users/' + username + params)
 		.then(function(user){
 			return user.data;
 		});
@@ -14,7 +14,7 @@ function getProfile(username) {
 
 function getRepos (username) {
   return axios.get('https://api.github.com/users/' + username + 
-  	               '/repos' + '&per_page=100');
+  	               '/repos' + params + '?per_page=100');
 }
 
 function getStarCount (repos) {

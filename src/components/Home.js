@@ -1,5 +1,5 @@
 import React from 'react';
-import Nav from './Nav.js';
+
 const Link = require('react-router-dom').Link;
 class Home extends React.Component {
 
